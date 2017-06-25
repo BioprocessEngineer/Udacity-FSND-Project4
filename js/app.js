@@ -349,6 +349,13 @@ function textSearchPlaces() {
     });
 }
 
+function cInfoWindow () {
+            if (placeInfoWindow.marker == this) {
+                console.log("This infowindow already is on this marker!");
+            } else {
+                getPlacesDetails(this, placeInfoWindow);
+            }
+        }
 // This function creates markers for each place found in either places search.
 function createMarkersForPlaces(places) {
     var bounds = new google.maps.LatLngBounds();
@@ -372,14 +379,7 @@ function createMarkersForPlaces(places) {
         // Create a single infowindow to be used with the place details information
         // so that only one is open at once.
         var placeInfoWindow = new google.maps.InfoWindow();
-        function cInfoWindow () {
-            if (placeInfoWindow.marker == this) {
-                console.log("This infowindow already is on this marker!");
-            } else {
-                getPlacesDetails(this, placeInfoWindow);
-            }
-        }
-        
+                
         // If a marker is clicked, do a place details search on it in the next function.
         marker.addListener('click', cInfoWindow);
         placeMarkers.push(marker);
