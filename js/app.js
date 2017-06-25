@@ -85,8 +85,20 @@ function initMap() {
     // mouses over the marker.
     var highlightedIcon = makeMarkerIcon('FFFF24');
 
+    function window_click () {
+            populateInfoWindow(this, largeInfowindow);
+    }
+
+    function mover () {
+        this.setIcon(highlightedIcon);
+    }
+
+    function mout () {
+        this.setIcon(defaultIcon);
+    }
+
     // The following group uses the location array to create an array of markers on initialize.
-    for (var i = 0; i < locations.length; i++) {
+    for (i = 0; i < locations.length; i++) {
         // Get the position from the location array.
         var position = locations[i].location;
         var title = locations[i].title;
@@ -101,18 +113,12 @@ function initMap() {
         // Push the marker to our array of markers.
         markers.push(marker);
         // Create an onclick event to open the large infowindow at each marker.
-        marker.addListener('click', function() {
-            populateInfoWindow(this, largeInfowindow);
-        });
+        marker.addListener('click', window_click);
         // Two event listeners - one for mouseover, one for mouseout,
         // to change the colors back and forth.
-        marker.addListener('mouseover', function() {
-            this.setIcon(highlightedIcon);
-        });
-        marker.addListener('mouseout', function() {
-            this.setIcon(defaultIcon);
-        });
-    };
+        marker.addListener('mouseover', mover);
+        marker.addListener('mouseout', mout);
+    }
 
     var bounds = new google.maps.LatLngBounds();
     // Extend the boundaries of the map for each marker and display the marker
@@ -196,10 +202,10 @@ function makeMarkerIcon(markerColor) {
 // that are within that travel time (via that travel mode) of the location
 function searchWithinTime() {
     // Initialize the distance matrix service.
-    var distanceMatrixService = new google.maps.DistanceMatrixService;
+    var distanceMatrixService = new google.maps.DistanceMatrixService();
     var address = document.getElementById('search-within-time-text').value;
     // Check to make sure the place entered isn't blank.
-    if (address == '') {
+    if (address === '') {
         window.alert('You must enter an address.');
     } else {
         hideMarkers(markers);
@@ -286,7 +292,7 @@ function displayMarkersWithinTime(response) {
 // on the map.
 function displayDirections(origin) {
     hideMarkers(markers);
-    var directionsService = new google.maps.DirectionsService;
+    var directionsService = new google.maps.DirectionsService();
     // Get the destination address from the user entered value.
     var destinationAddress =
         document.getElementById('search-within-time-text').value;
@@ -319,7 +325,7 @@ function displayDirections(origin) {
 function searchBoxPlaces(searchBox) {
     hideMarkers(placeMarkers);
     var places = searchBox.getPlaces();
-    if (places.length == 0) {
+    if (places.length === 0) {
         window.alert('We did not find any places matching that search!');
     } else {
         // For each place, get the icon, name and location.
@@ -366,14 +372,16 @@ function createMarkersForPlaces(places) {
         // Create a single infowindow to be used with the place details information
         // so that only one is open at once.
         var placeInfoWindow = new google.maps.InfoWindow();
-        // If a marker is clicked, do a place details search on it in the next function.
-        marker.addListener('click', function() {
+        function cInfoWindow () {
             if (placeInfoWindow.marker == this) {
                 console.log("This infowindow already is on this marker!");
             } else {
                 getPlacesDetails(this, placeInfoWindow);
             }
-        });
+        }
+        
+        // If a marker is clicked, do a place details search on it in the next function.
+        marker.addListener('click', cInfoWindow);
         placeMarkers.push(marker);
         if (place.geometry.viewport) {
             // Only geocodes have viewport.
