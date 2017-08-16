@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -8,19 +9,16 @@
     <link href="https://fonts.googleapis.com/css?family=Slabo+27px" rel="stylesheet">
 </head>
 <body>
+<div class=nav></div>
 <div class="map-panel">
 <p>K-W Area Outdoor Basketball Courts</p>
 <ul id='court-list' data-bind="foreach: filteredCourts">
-<li data-bind="text: title, attr: {id: ID}"></li>
+<li data-bind="text: title, attr: {id: ID}, event: {click: $root.listClick, mouseover: $root.listMouseover, mouseout: $root.listMouseout}"></li>
 </ul>
-
 <div class="dropdown">
 <p>Choose your city</p>
-<div class="dropdown-content">
-<label><input type="radio" ID="All" value="All" data-bind="checked: selectedCategory"/>All</label>
-<label><input type="radio" ID="C" value="C" data-bind="checked: selectedCategory"/>Cambridge</label>
-<label><input type="radio" ID="K" value="K" data-bind="checked: selectedCategory"/>Kitchener</label>
-</div>
+<select id="city" data-bind="options: availableCities, value: selectedCity, event">
+</select>
 </div>
 </div>
 <div id="map"></div>
