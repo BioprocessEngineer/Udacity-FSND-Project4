@@ -7,7 +7,7 @@ var ViewModel = function() {
         self.courtList.push(new court(courtItem));});
 
     //Intialize variables for city filtering function
-    self.availableCities = ko.observableArray(['All', 'Kitchener', 'Cambridge'])
+    self.availableCities = ko.observableArray(['All', 'Kitchener', 'Cambridge']);
     self.selectedCity = ko.observable("All");
 
 
@@ -15,17 +15,17 @@ var ViewModel = function() {
     self.listClick = function(filteredCourts){
         var ci = filteredCourts.ID;
         google.maps.event.trigger(markers[ci],'click');
-    }
+    };
 
     self.listMouseover = function(filteredCourts){
         var ci = filteredCourts.ID;
         google.maps.event.trigger(markers[ci],'mouseover');
-    }
+    };
 
     self.listMouseout = function(filteredCourts){
         var ci = filteredCourts.ID;
         google.maps.event.trigger(markers[ci],'mouseout');
-    }
+    };
 
 
     //Filter cities where courts are located
@@ -50,7 +50,7 @@ var ViewModel = function() {
             return crt.city === city;
             });
 
-        };
+        }
     });
 };
 
@@ -59,7 +59,7 @@ var court = function(data) {
     this.title = data.title,
     this.location = data.location,
     this.city = data.city,
-    this.ID = data.ID
+    this.ID = data.ID;
 };
 
 //Global objects
@@ -122,7 +122,7 @@ function initMap() {
         marker.addListener('mouseout', mout);
         }
         map.fitBounds(bounds);
-    };
+    }
     showMarker(filteredLocations);
 
     google.maps.event.addDomListener(document.getElementById('city'), 'change', filterMarker);
@@ -132,9 +132,9 @@ function initMap() {
         hideListings();
         for (var i = 0; i < markers.length; i++) {
             if (markers[i].city === city) {
-                markers[i].setVisible(true)
+                markers[i].setVisible(true);
             } else if (city === "All") {
-                markers[i].setVisible(true)
+                markers[i].setVisible(true);
             }   
         }
     }
@@ -176,14 +176,14 @@ function initMap() {
             wcourt = data.weather[0].description;
             document.getElementById('wcourt').append(wcourt);
         });
-    }};
+    }}
 
 
    //Function to hide markers
     function hideListings () {
         for (var i = 0; i < markers.length; i++) {
             markers[i].setVisible(false);
-            markers[i].setIcon('img/bball_s.png')
+            markers[i].setIcon('img/bball_s.png');
         }
     }
 
