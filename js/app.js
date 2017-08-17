@@ -7,7 +7,7 @@ var ViewModel = function() {
         self.courtList.push(new court(courtItem));});
 
     //Intialize variables for city filtering function
-    self.availableCities = ko.observableArray(['All', 'GTA', 'Outside-GTA'])
+    self.availableCities = ko.observableArray(['All', 'GTA', 'Outside-GTA']);
     self.selectedCity = ko.observable("All");
 
 
@@ -15,17 +15,17 @@ var ViewModel = function() {
     self.listClick = function(filteredCourts){
         var ci = filteredCourts.ID;
         google.maps.event.trigger(markers[ci],'click');
-    }
+    };
 
     self.listMouseover = function(filteredCourts){
         var ci = filteredCourts.ID;
         google.maps.event.trigger(markers[ci],'mouseover');
-    }
+    };
 
     self.listMouseout = function(filteredCourts){
         var ci = filteredCourts.ID;
         google.maps.event.trigger(markers[ci],'mouseout');
-    }
+    };
 
     //Filter cities where courts are located
     self.filteredCourts = ko.computed(function(){
@@ -47,7 +47,7 @@ var ViewModel = function() {
         return tempList.filter(function(crt){
             return crt.city === city;
             });
-        };
+        }
     });
 };
 
@@ -56,7 +56,7 @@ var court = function(data) {
     this.title = data.title,
     this.location = data.location,
     this.city = data.city,
-    this.ID = data.ID
+    this.ID = data.ID;
 };
 
 //Global objects
@@ -109,7 +109,7 @@ function initMap() {
             marker.addListener('mouseout', mout);
         }
         map.fitBounds(bounds);
-    };
+    }
     showMarker(filteredLocations);
     google.maps.event.addDomListener(document.getElementById('city'), 'change', windowClose);
 
@@ -147,12 +147,12 @@ function initMap() {
             })
             .fail(function(){
                 alert("Error with OpenWeatherMap API");
-            })                
+            });                
             infowindow.open(map, marker);
             infowindow.addListener('closeclick', function(){
                 infowindow.setContent(null);
             });
-    }};
+    }}
 }
 
 
@@ -161,9 +161,9 @@ function filterMarker () {
     hideListings();
     for (var i = 0; i < markers.length; i++) {
         if (markers[i].city === city) {
-            markers[i].setVisible(true)
+            markers[i].setVisible(true);
         } else if (city === "All") {
-            markers[i].setVisible(true)
+            markers[i].setVisible(true);
         }   
     }
 }
@@ -172,7 +172,7 @@ function filterMarker () {
 function hideListings () {
     for (var i = 0; i < markers.length; i++) {
         markers[i].setVisible(false);
-        markers[i].setIcon('img/bball_s.png')
+        markers[i].setIcon('img/bball_s.png');
     }
 }
 
